@@ -12,6 +12,7 @@ Source0:     https://launchpad.net/horizon/grizzly/grizzly-3/+download/horizon-%
 Source1:    openstack-dashboard.conf
 Source2:    openstack-dashboard-httpd-2.4.conf
 
+Source3:    python-django-horizon-2013.1-compressed-css.tar.gz
 # demo config for separate logging
 Source4:    openstack-dashboard-httpd-logging.conf
 
@@ -202,8 +203,7 @@ cp -a horizon/static/* %{buildroot}%{_datadir}/openstack-dashboard/static
 
 # compress css, js etc.
 cd %{buildroot}%{_datadir}/openstack-dashboard
-%{__python} manage.py collectstatic --noinput --pythonpath=../../lib/python2.7/site-packages/ 
-%{__python} manage.py compress --pythonpath=../../lib/python2.7/site-packages/
+tar xzf %{SOURCE3}
 
 %files -f horizon.lang
 %doc LICENSE README.rst openstack-dashboard-httpd-logging.conf
