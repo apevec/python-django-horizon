@@ -86,8 +86,8 @@ BuildRequires: python2-devel
 BuildRequires: python-django-openstack-auth
 BuildRequires: python-django-compressor
 BuildRequires: python-django-appconf
-BuildRequires: nodejs
-BuildRequires: lessjs
+#BuildRequires: nodejs
+#BuildRequires: lessjs
 
 BuildRequires:   pytz 
 %description -n openstack-dashboard
