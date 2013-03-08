@@ -1,6 +1,6 @@
 Name:       python-django-horizon
 Version:    2013.1
-Release:    0.5.g3%{?dist}
+Release:    0.6.g3%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
@@ -127,7 +127,7 @@ Documentation for the Django Horizon application for talking with Openstack
 %patch0001 -p1
 %patch0002 -p1
 %patch0003 -p1
-%patch0004 -p1
+#%patch0004 -p1
 # remove unnecessary .po files
 find . -name "django*.po" -exec rm -f '{}' \;
 
@@ -252,6 +252,9 @@ tar xzf %{SOURCE3}
 %doc html 
 
 %changelog
+* Fri Mar 08 2013 Matthias Runge <mrunge@redhat.com> - 2013.1-0.6.g3
+- fix a syntax error in config file
+
 * Wed Feb 27 2013 Matthias Runge <mrunge@redhat.com> - 2013.1-0.5.g3
 - update to grizzly-3
 
