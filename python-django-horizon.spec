@@ -1,6 +1,6 @@
 Name:       python-django-horizon
 Version:    2013.1
-Release:    0.6.g3%{?dist}
+Release:    0.7.g3%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
@@ -252,6 +252,11 @@ tar xzf %{SOURCE3}
 %doc html 
 
 %changelog
+* Thu Mar 14 2013 Matthias Runge <mrunge@redhat.com> - 2013.1-0.7.g3
+- fix compressed css (rhbz#921036)
+- enable compression in httpd file
+- set expires in httpd config file
+
 * Fri Mar 08 2013 Matthias Runge <mrunge@redhat.com> - 2013.1-0.6.g3
 - fix a syntax error in config file
 
