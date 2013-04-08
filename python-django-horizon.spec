@@ -1,6 +1,6 @@
 Name:       python-django-horizon
 Version:    2013.1
-Release:    0.7.g3%{?dist}
+Release:    1%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
@@ -8,7 +8,7 @@ Group:      Development/Libraries
 License:    ASL 2.0 and BSD
 URL:        http://horizon.openstack.org/
 BuildArch:  noarch
-Source0:     https://launchpad.net/horizon/grizzly/grizzly-3/+download/horizon-%{version}.g3.tar.gz
+Source0:     https://launchpad.net/horizon/grizzly/%{version}/+download/horizon-%{version}.tar.gz
 Source1:    openstack-dashboard.conf
 Source2:    openstack-dashboard-httpd-2.4.conf
 
@@ -17,16 +17,19 @@ Source3:    python-django-horizon-2013.1-compressed-css.tar.gz
 Source4:    openstack-dashboard-httpd-logging.conf
 
 #
-# patches_base=2013.1.g3
+# patches_base=2013.1
 #
 Patch0001: 0001-disable-debug.patch
 Patch0002: 0002-Don-t-access-the-net-while-building-docs.patch
 Patch0003: 0003-take-variables-out-of-compressed-output.patch
 Patch0004: 0004-disable-to-set-mount-point-as-it-s-unsupported-here.patch
 
+%if 0%{?rhel}>6 || 0%{?fedora} > 17
+# grizzly requires python-django14
+BuildRequires:   python-django14
+Requires:   python-django14
 
-%if 0%{?rhel}<7 || 0%{?fedora} < 18
-
+%else
 # epel6 has a separate Django14 package
 %if 0%{?rhel}==6
 Requires:   Django14
@@ -36,9 +39,6 @@ BuildRequires:   Django
 Requires:   Django
 %endif
 
-%else
-BuildRequires:   python-django
-Requires:   python-django
 %endif
 
 Requires:   python-dateutil
@@ -122,7 +122,7 @@ Documentation for the Django Horizon application for talking with Openstack
 
 
 %prep
-%setup -q -n horizon-%{version}.g3
+%setup -q -n horizon-%{version}
 
 %patch0001 -p1
 %patch0002 -p1
@@ -252,6 +252,9 @@ tar xzf %{SOURCE3}
 %doc html 
 
 %changelog
+* Mon Apr 08 2013 Matthias Runge <mrunge@redhat.com> - 2013.1-1
+- update to grizzly final
+
 * Thu Mar 14 2013 Matthias Runge <mrunge@redhat.com> - 2013.1-0.7.g3
 - fix compressed css (rhbz#921036)
 - enable compression in httpd file
