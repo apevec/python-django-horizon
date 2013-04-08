@@ -19,10 +19,8 @@ Source4:    openstack-dashboard-httpd-logging.conf
 #
 # patches_base=2013.1
 #
-Patch0001: 0001-disable-debug.patch
+Patch0001: 0001-disable-debug-move-web-root.patch
 Patch0002: 0002-Don-t-access-the-net-while-building-docs.patch
-Patch0003: 0003-take-variables-out-of-compressed-output.patch
-Patch0004: 0004-disable-to-set-mount-point-as-it-s-unsupported-here.patch
 
 %if 0%{?rhel}>6 || 0%{?fedora} > 17
 # grizzly requires python-django14
@@ -126,8 +124,6 @@ Documentation for the Django Horizon application for talking with Openstack
 
 %patch0001 -p1
 %patch0002 -p1
-%patch0003 -p1
-#%patch0004 -p1
 # remove unnecessary .po files
 find . -name "django*.po" -exec rm -f '{}' \;
 
