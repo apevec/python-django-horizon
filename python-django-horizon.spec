@@ -12,7 +12,7 @@ Source0:     https://launchpad.net/horizon/grizzly/%{version}/+download/horizon-
 Source1:    openstack-dashboard.conf
 Source2:    openstack-dashboard-httpd-2.4.conf
 
-Source3:    python-django-horizon-2013.1-compressed-css.tar.gz
+Source3:    python-django-horizon-2013.1-compress.tar.gz
 # demo config for separate logging
 Source4:    openstack-dashboard-httpd-logging.conf
 
