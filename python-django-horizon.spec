@@ -1,5 +1,5 @@
 Name:       python-django-horizon
-Version:    2013.1
+Version:    2013.1.1
 Release:    1%{?dist}
 Summary:    Django application for talking to Openstack
 
