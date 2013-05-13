@@ -17,7 +17,7 @@ Source3:    python-django-horizon-2013.1-compress.tar.gz
 Source4:    openstack-dashboard-httpd-logging.conf
 
 #
-# patches_base=2013.1
+# patches_base=2013.1.1
 #
 Patch0001: 0001-disable-debug-move-web-root.patch
 Patch0002: 0002-Don-t-access-the-net-while-building-docs.patch
@@ -84,8 +84,8 @@ BuildRequires: python2-devel
 BuildRequires: python-django-openstack-auth
 BuildRequires: python-django-compressor
 BuildRequires: python-django-appconf
-#BuildRequires: nodejs
-#BuildRequires: lessjs
+BuildRequires: nodejs
+BuildRequires: nodejs-less
 
 BuildRequires:   pytz 
 %description -n openstack-dashboard
@@ -199,7 +199,8 @@ cp -a horizon/static/* %{buildroot}%{_datadir}/openstack-dashboard/static
 
 # compress css, js etc.
 cd %{buildroot}%{_datadir}/openstack-dashboard
-tar xzf %{SOURCE3}
+%{__python} manage.py collectstatic --noinput --pythonpath=../../lib/python2.6/site-packages/ 
+%{__python} manage.py compress --pythonpath=../../lib/python2.6/site-packages/
 
 %files -f horizon.lang
 %doc LICENSE README.rst openstack-dashboard-httpd-logging.conf
@@ -248,6 +249,10 @@ tar xzf %{SOURCE3}
 %doc html 
 
 %changelog
+* Mon May 13 2013 Matthias Runge <mrunge@redhat.com> - 2013.1.1-1
+- update to 2013.1.1 stable release
+- move to compression using node.js/less
+
 * Mon Apr 08 2013 Matthias Runge <mrunge@redhat.com> - 2013.1-1
 - update to grizzly final
 
