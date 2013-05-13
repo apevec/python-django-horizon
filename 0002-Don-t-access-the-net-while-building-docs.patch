@@ -1,4 +1,4 @@
-From c6accfed876324f56a84ddd1e80e48a1420dc45d Mon Sep 17 00:00:00 2001
+From 58b5ad25f4bd34ff9f4b27bf72f2efd039bf24bf Mon Sep 17 00:00:00 2001
 From: Matthias Runge <mrunge@redhat.com>
 Date: Fri, 5 Apr 2013 10:16:19 +0200
 Subject: [PATCH] Don't access the net while building docs (Note this hasn't
