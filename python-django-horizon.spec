@@ -1,6 +1,6 @@
 Name:       python-django-horizon
-Version:    2013.1.1
-Release:    1%{?dist}
+Version:    2013.2
+Release:    0.1b1%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
@@ -8,7 +8,7 @@ Group:      Development/Libraries
 License:    ASL 2.0 and BSD
 URL:        http://horizon.openstack.org/
 BuildArch:  noarch
-Source0:     https://launchpad.net/horizon/grizzly/%{version}/+download/horizon-%{version}.tar.gz
+Source0:     https://launchpad.net/horizon/havana/%{version}/+download/horizon-%{version}.tar.gz
 Source1:    openstack-dashboard.conf
 Source2:    openstack-dashboard-httpd-2.4.conf
 
@@ -16,7 +16,7 @@ Source2:    openstack-dashboard-httpd-2.4.conf
 Source4:    openstack-dashboard-httpd-logging.conf
 
 #
-# patches_base=2013.1.1
+# patches_base=2013.2.b1
 #
 Patch0001: 0001-disable-debug-move-web-root.patch
 Patch0002: 0002-Don-t-access-the-net-while-building-docs.patch
@@ -45,6 +45,7 @@ Requires:   python-novaclient >= 2012.1
 Requires:   python-quantumclient
 Requires:   python-cinderclient
 Requires:   python-swiftclient
+Requires:   python-heatclient
 Requires:   pytz
 
 BuildRequires: python2-devel
@@ -113,13 +114,14 @@ BuildRequires: python-novaclient >= 2012.1
 BuildRequires: python-quantumclient
 BuildRequires: python-cinderclient
 BuildRequires: python-swiftclient
+BuildRequires: python-heatclient
 
 %description doc
 Documentation for the Django Horizon application for talking with Openstack
 
 
 %prep
-%setup -q -n horizon-%{version}
+%setup -q -n horizon-%{version}.b1
 
 %patch0001 -p1
 %patch0002 -p1
@@ -248,6 +250,9 @@ cd %{buildroot}%{_datadir}/openstack-dashboard
 %doc html 
 
 %changelog
+* Mon Jun 03 2013 Matthias Runge <mrunge@redhat.com> - 2013.2-0.1b1
+- update to 2013.2.b1
+
 * Mon May 13 2013 Matthias Runge <mrunge@redhat.com> - 2013.1.1-1
 - update to 2013.1.1 stable release
 - move to compression using node.js/less
