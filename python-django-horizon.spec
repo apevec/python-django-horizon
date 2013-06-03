@@ -8,7 +8,7 @@ Group:      Development/Libraries
 License:    ASL 2.0 and BSD
 URL:        http://horizon.openstack.org/
 BuildArch:  noarch
-Source0:     https://launchpad.net/horizon/havana/%{version}/+download/horizon-%{version}.tar.gz
+Source0:     https://launchpad.net/horizon/havana/%{version}/+download/horizon-%{version}.b1.tar.gz
 Source1:    openstack-dashboard.conf
 Source2:    openstack-dashboard-httpd-2.4.conf
 
