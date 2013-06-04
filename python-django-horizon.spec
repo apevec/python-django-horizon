@@ -50,6 +50,8 @@ Requires:   pytz
 
 BuildRequires: python2-devel
 BuildRequires: python-setuptools
+BuildRequires: python-pbr
+BuildRequires: python-d2to1
 
 # for checks:
 #BuildRequires:   python-django-nose
