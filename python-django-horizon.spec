@@ -222,7 +222,6 @@ cd %{buildroot}%{_datadir}/openstack-dashboard
 %{python_sitelib}/horizon/utils
 %{python_sitelib}/horizon/workflows
 %{python_sitelib}/*.egg-info
-%exclude %{python_sitelib}/bin
 
 %files -n openstack-dashboard -f dashboard.lang
 %dir %{_datadir}/openstack-dashboard/
@@ -232,7 +231,6 @@ cd %{buildroot}%{_datadir}/openstack-dashboard
 %{_datadir}/openstack-dashboard/openstack_dashboard/api
 %{_datadir}/openstack-dashboard/openstack_dashboard/dashboards
 %{_datadir}/openstack-dashboard/openstack_dashboard/local
-%{_datadir}/openstack-dashboard/openstack_dashboard/openstack
 %{_datadir}/openstack-dashboard/openstack_dashboard/static
 %{_datadir}/openstack-dashboard/openstack_dashboard/templates
 %{_datadir}/openstack-dashboard/openstack_dashboard/test
