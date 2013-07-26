@@ -1,6 +1,6 @@
 Name:       python-django-horizon
 Version:    2013.2
-Release:    0.4b1%{?dist}
+Release:    0.4b2%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
@@ -20,6 +20,7 @@ Source4:    openstack-dashboard-httpd-logging.conf
 #
 Patch0001: 0001-Don-t-access-the-net-while-building-docs.patch
 Patch0002: 0002-disable-debug-move-web-root.patch
+Patch0003: 0003-change-lockfile-location-to-tmp-and-also-add-localho.patch
 
 %if 0%{?rhel}>6 || 0%{?fedora} > 17
 # grizzly requires python-django14
@@ -131,6 +132,7 @@ Documentation for the Django Horizon application for talking with Openstack
 
 %patch0001 -p1
 %patch0002 -p1
+%patch0003 -p1
 # remove unnecessary .po files
 find . -name "django*.po" -exec rm -f '{}' \;
 
