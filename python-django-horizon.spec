@@ -1,6 +1,6 @@
 Name:       python-django-horizon
 Version:    2013.2
-Release:    0.4b2%{?dist}
+Release:    0.5b2%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
@@ -260,6 +260,9 @@ cd %{buildroot}%{_datadir}/openstack-dashboard
 %doc html 
 
 %changelog
+* Wed Aug 07 2013 Matthias Runge <mrunge@redhat.com> - 2013.2-0.5b2
+- bump spec to rebuild against python-django-compressor >= 1.3
+
 * Thu Jul 25 2013 Matthias Runge <mrunge@redhat.com> - 2013.2-0.4b2
 - havana-2
 - change requirements from python-quantumclient to neutronclient
