@@ -9,9 +9,11 @@
 /horizon-2013.1~g1.tar.gz
 /horizon-2013.1~g2.tar.gz
 /horizon-2013.1.g3.tar.gz
-/python-django-horizon-2013.1-compressed-css.tar.gz
 /horizon-2013.1.tar.gz
-/python-django-horizon-2013.1-compress.tar.gz
+/openstack-dashboard.conf
+/openstack-dashboard-httpd-2.4.conf
+/openstack-dashboard-httpd-logging.conf
 /horizon-2013.1.1.tar.gz
 /horizon-2013.2.b1.tar.gz
 /horizon-2013.2.b2.tar.gz
+/horizon-2013.2.b3.tar.gz

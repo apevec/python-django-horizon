@@ -1,6 +1,6 @@
 Name:       python-django-horizon
 Version:    2013.2
-Release:    0.5b2%{?dist}
+Release:    0.10b3%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
@@ -8,26 +8,29 @@ Group:      Development/Libraries
 License:    ASL 2.0 and BSD
 URL:        http://horizon.openstack.org/
 BuildArch:  noarch
-Source0:     https://launchpad.net/horizon/havana/havana-2/+download/horizon-%{version}.b2.tar.gz
+Source0:     https://launchpad.net/horizon/havana/havana-3/+download/horizon-%{version}.b3.tar.gz
 Source1:    openstack-dashboard.conf
 Source2:    openstack-dashboard-httpd-2.4.conf
 
 # demo config for separate logging
 Source4:    openstack-dashboard-httpd-logging.conf
 
+# custom icons
+Source10:   rhfavicon.ico
+Source11:   rh-logo.png
+
 #
-# patches_base=2013.2.b2
+# patches_base=2013.2.b3
 #
 Patch0001: 0001-Don-t-access-the-net-while-building-docs.patch
 Patch0002: 0002-disable-debug-move-web-root.patch
 Patch0003: 0003-change-lockfile-location-to-tmp-and-also-add-localho.patch
+Patch0004: 0004-Add-a-customization-module-based-on-RHOS.patch
+Patch0005: 0005-Revert-Adding-panels-for-trove.patch
+Patch0006: 0006-Revert-Use-oslo.sphinx-and-remove-local-copy-of-doc-.patch
+Patch0007: 0007-move-RBAC-policy-files-and-checks-to-etc-openstack-d.patch
+Patch0008: 0008-move-SECRET_KEY-secret_key_store-to-tmp.patch
 
-%if 0%{?rhel}>6 || 0%{?fedora} > 17
-# grizzly requires python-django14
-BuildRequires:   python-django14
-Requires:   python-django14
-
-%else
 # epel6 has a separate Django14 package
 %if 0%{?rhel}==6
 Requires:   Django14
@@ -37,7 +40,6 @@ BuildRequires:   Django
 Requires:   Django
 %endif
 
-%endif
 
 Requires:   python-dateutil
 Requires:   python-glanceclient
@@ -48,6 +50,7 @@ Requires:   python-cinderclient
 Requires:   python-swiftclient
 Requires:   python-heatclient
 Requires:   python-ceilometerclient
+
 Requires:   pytz
 Requires:   python-lockfile
 
@@ -58,11 +61,18 @@ BuildRequires: python-d2to1
 BuildRequires: python-lockfile
 
 # for checks:
-#BuildRequires:   python-django-nose
-#BuildRequires:   python-cinderclient
-#BuildRequires:   python-django-appconf
-#BuildRequires:   python-django-openstack-auth
-#BuildRequires:   python-django-compressor
+BuildRequires:   python-django-nose
+BuildRequires:   python-coverage
+BuildRequires:   python-mox
+BuildRequires:   python-nose-exclude
+BuildRequires:   python-netaddr
+BuildRequires:   python-eventlet
+BuildRequires:   python-kombu
+BuildRequires:   python-anyjson
+BuildRequires:   pytz
+BuildRequires:   python-iso8601
+BuildRequires:   python-nose
+
 
 # additional provides to be consistent with other django packages
 Provides: django-horizon = %{version}-%{release}
@@ -82,18 +92,27 @@ Group:      Applications/System
 Requires:   httpd
 Requires:   mod_wsgi
 Requires:   python-django-horizon >= %{version}
-Requires:   python-django-openstack-auth
-Requires:   python-django-compressor
+Requires:   python-django-openstack-auth >= 1.0.11
+Requires:   python-django-compressor >= 1.3
 Requires:   python-django-appconf
+Requires:   python-glanceclient
+Requires:   python-keystoneclient >= 0.3
+Requires:   python-novaclient >= 2012.1
+Requires:   python-neutronclient
+Requires:   python-cinderclient
+Requires:   python-swiftclient
+Requires:   python-heatclient
+Requires:   python-ceilometerclient
+# Requires:  python-troveclient
+Requires:   python-netaddr
+Requires:   python-lesscpy
 
 BuildRequires: python2-devel
-BuildRequires: python-django-openstack-auth
-BuildRequires: python-django-compressor
+BuildRequires: python-django-openstack-auth >= 1.0.11
+BuildRequires: python-django-compressor >= 1.3
 BuildRequires: python-django-appconf
-BuildRequires: nodejs
-BuildRequires: nodejs-less
+BuildRequires: python-lesscpy
 
-BuildRequires:   pytz 
 %description -n openstack-dashboard
 Openstack Dashboard is a web user interface for Openstack. The package
 provides a reference implementation using the Django Horizon project,
@@ -115,32 +134,72 @@ BuildRequires: python-sphinx >= 1.1.3
 # Doc building basically means we have to mirror Requires:
 BuildRequires: python-dateutil
 BuildRequires: python-glanceclient
-BuildRequires: python-keystoneclient
+BuildRequires: python-keystoneclient >= 0.3
 BuildRequires: python-novaclient >= 2012.1
 BuildRequires: python-neutronclient
 BuildRequires: python-cinderclient
 BuildRequires: python-swiftclient
 BuildRequires: python-heatclient
 BuildRequires: python-ceilometerclient
+# BuildRequires:  python-troveclient
 
 %description doc
 Documentation for the Django Horizon application for talking with Openstack
 
+%package -n openstack-dashboard-theme
+Summary: OpenStack web user interface reference implementation theme module
+Requires: openstack-dashboard = %{version}
+
+%description -n openstack-dashboard-theme
+Customization module for OpenStack Dashboard to provide a branded logo.
 
 %prep
-%setup -q -n horizon-%{version}.b2
+%setup -q -n horizon-%{version}.b3
 
 %patch0001 -p1
 %patch0002 -p1
 %patch0003 -p1
+%patch0004 -p1
+%patch0005 -p1
+%patch0006 -p1
+%patch0007 -p1
+%patch0008 -p1
+
 # remove unnecessary .po files
 find . -name "django*.po" -exec rm -f '{}' \;
+
+# Remove the requirements file so that pbr hooks don't add it
+# to distutils requires_dist config
+rm -rf {test-,}requirements.txt tools/{pip,test}-requires
+
+# create images for custom theme
+mkdir -p openstack_dashboard_theme/static/dashboard/img
+cp %{SOURCE10} openstack_dashboard_theme/static/dashboard/img
+cp %{SOURCE11} openstack_dashboard_theme/static/dashboard/img 
 
 # drop config snippet
 cp -p %{SOURCE4} .
 
 %build
 %{__python} setup.py build
+
+# compress css, js etc.
+cp openstack_dashboard/local/local_settings.py.example openstack_dashboard/local/local_settings.py
+%{__python} manage.py collectstatic --noinput --pythonpath=../../lib/python2.6/site-packages/ 
+%{__python} manage.py compress --pythonpath=../../lib/python2.6/site-packages/
+
+cp -a static/dashboard %{_buildir}
+
+# build docs
+export PYTHONPATH="$( pwd ):$PYTHONPATH"
+%if 0%{?rhel}==6
+sphinx-1.0-build -b html doc/source html
+%else
+sphinx-build -b html doc/source html
+%endif
+
+# Fix hidden-file-or-dir warnings
+rm -fr html/.doctrees html/.buildinfo
 
 %install
 %{__python} setup.py install -O1 --skip-build --root %{buildroot}
@@ -152,18 +211,6 @@ install -m 0644 -D -p %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/opensta
 # httpd-2.4 changed the syntax
 install -m 0644 -D -p %{SOURCE2} %{buildroot}%{_sysconfdir}/httpd/conf.d/openstack-dashboard.conf
 %endif
-
-cp openstack_dashboard/local/local_settings.py.example openstack_dashboard/local/local_settings.py
-export PYTHONPATH="$( pwd ):$PYTHONPATH"
-%if 0%{?rhel}==6
-sphinx-1.0-build -b html doc/source html
-%else
-sphinx-build -b html doc/source html
-%endif
-
-# Fix hidden-file-or-dir warnings
-rm -fr html/.doctrees html/.buildinfo
-
 install -d -m 755 %{buildroot}%{_datadir}/openstack-dashboard
 install -d -m 755 %{buildroot}%{_sharedstatedir}/openstack-dashboard
 install -d -m 755 %{buildroot}%{_sysconfdir}/openstack-dashboard
@@ -171,14 +218,18 @@ install -d -m 755 %{buildroot}%{_sysconfdir}/openstack-dashboard
 # Copy everything to /usr/share
 mv %{buildroot}%{python_sitelib}/openstack_dashboard \
    %{buildroot}%{_datadir}/openstack-dashboard
-mv manage.py %{buildroot}%{_datadir}/openstack-dashboard
+cp manage.py %{buildroot}%{_datadir}/openstack-dashboard
 rm -rf %{buildroot}%{python_sitelib}/openstack_dashboard
 
+# move customization stuff to /usr/share
+mv openstack_dashboard_theme %{buildroot}%{_datadir}/openstack-dashboard
 
 # Move config to /etc, symlink it back to /usr/share
 rm openstack_dashboard/local/local_settings.py
 mv %{buildroot}%{_datadir}/openstack-dashboard/openstack_dashboard/local/local_settings.py.example %{buildroot}%{_sysconfdir}/openstack-dashboard/local_settings
-ln -s %{_sysconfdir}/openstack-dashboard/local_settings %{buildroot}%{_datadir}/openstack-dashboard/openstack_dashboard/local/local_settings.py
+ln -s ../../../../../%{_sysconfdir}/openstack-dashboard/local_settings %{buildroot}%{_datadir}/openstack-dashboard/openstack_dashboard/local/local_settings.py
+
+mv %{buildroot}%{_datadir}/openstack-dashboard/openstack_dashboard/conf/*.json %{buildroot}%{_sysconfdir}/openstack-dashboard
 
 %if 0%{?rhel} > 6 || 0%{?fedora} >= 16
 %find_lang django
@@ -207,11 +258,7 @@ cat djangojs.lang >> horizon.lang
 mkdir -p %{buildroot}%{_datadir}/openstack-dashboard/static
 cp -a openstack_dashboard/static/* %{buildroot}%{_datadir}/openstack-dashboard/static
 cp -a horizon/static/* %{buildroot}%{_datadir}/openstack-dashboard/static 
-
-# compress css, js etc.
-cd %{buildroot}%{_datadir}/openstack-dashboard
-%{__python} manage.py collectstatic --noinput --pythonpath=../../lib/python2.6/site-packages/ 
-%{__python} manage.py compress --pythonpath=../../lib/python2.6/site-packages/
+cp -a static/* %{buildroot}%{_datadir}/openstack-dashboard/static
 
 %files -f horizon.lang
 %doc LICENSE README.rst openstack-dashboard-httpd-logging.conf
@@ -246,6 +293,7 @@ cd %{buildroot}%{_datadir}/openstack-dashboard
 %{_datadir}/openstack-dashboard/openstack_dashboard/usage
 %{_datadir}/openstack-dashboard/openstack_dashboard/utils
 %{_datadir}/openstack-dashboard/openstack_dashboard/wsgi
+%dir %{_datadir}/openstack-dashboard/openstack_dashboard
 %dir %{_datadir}/openstack-dashboard/openstack_dashboard/locale
 %dir %{_datadir}/openstack-dashboard/openstack_dashboard/locale/??
 %dir %{_datadir}/openstack-dashboard/openstack_dashboard/locale/??_??
@@ -255,13 +303,35 @@ cd %{buildroot}%{_datadir}/openstack-dashboard
 %dir %attr(0750, root, apache) %{_sysconfdir}/openstack-dashboard
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/openstack-dashboard.conf
 %config(noreplace) %attr(0640, root, apache) %{_sysconfdir}/openstack-dashboard/local_settings
+%config(noreplace) %attr(0640, root, apache) %{_sysconfdir}/openstack-dashboard/keystone_policy.json
+%config(noreplace) %attr(0640, root, apache) %{_sysconfdir}/openstack-dashboard/nova_policy.json
 
 %files doc
 %doc html 
 
+%files -n openstack-dashboard-theme
+%{_datadir}/openstack-dashboard/openstack_dashboard_theme
+#%{_datadir}/openstack-dashboard/openstack_dashboard_theme/static/dashboard/less/rhtheme.less
+#%{_datadir}/openstack-dashboard/openstack_dashboard_theme/static/dashboard/img/rh-logo.png
+#%{_datadir}/openstack-dashboard/openstack_dashboard_theme/static/dashboard/img/rhfavicon.ico
+
 %changelog
+* Mon Sep 09 2013 Matthias Runge <mrunge@redhat.com> - 2013.2-0.10b3
+- Havana-3 snapshot
+- drop node.js and node-less from buildrequirements
+- add runtime requirement python-lesscpy
+- own openstack_dashboard dir
+- fix keystore handling issue
+
+* Wed Aug 28 2013 Matthias Runge <mrunge@redhat.com> - 2013.2-0.8b2
+- add a -custom subpackage to use a custom logo
+
+* Mon Aug 26 2013 Matthias Runge <mrunge@redhat.com> - 2013.2-0.7b2
+- enable tests in check section (rhbz#856182)
+
 * Wed Aug 07 2013 Matthias Runge <mrunge@redhat.com> - 2013.2-0.5b2
-- bump spec to rebuild against python-django-compressor >= 1.3
+- move requirements from horizon to openstack-dashboard package
+- introduce explicit requirements for dependencies
 
 * Thu Jul 25 2013 Matthias Runge <mrunge@redhat.com> - 2013.2-0.4b2
 - havana-2
