@@ -61,10 +61,10 @@ BuildRequires: python-d2to1
 BuildRequires: python-lockfile
 
 # for checks:
-BuildRequires:   python-django-nose
+#BuildRequires:   python-django-nose
 BuildRequires:   python-coverage
 BuildRequires:   python-mox
-BuildRequires:   python-nose-exclude
+#BuildRequires:   python-nose-exclude
 BuildRequires:   python-netaddr
 BuildRequires:   python-eventlet
 BuildRequires:   python-kombu
