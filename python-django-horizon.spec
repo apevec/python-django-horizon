@@ -43,7 +43,7 @@ Requires:   Django
 
 Requires:   python-dateutil
 Requires:   python-glanceclient
-Requires:   python-keystoneclient 
+Requires:   python-keystoneclient >= 0.3.2
 Requires:   python-novaclient >= 2012.1
 Requires:   python-neutronclient
 Requires:   python-cinderclient
@@ -96,7 +96,7 @@ Requires:   python-django-openstack-auth >= 1.0.11
 Requires:   python-django-compressor >= 1.3
 Requires:   python-django-appconf
 Requires:   python-glanceclient
-Requires:   python-keystoneclient >= 0.3
+Requires:   python-keystoneclient >= 0.3.2
 Requires:   python-novaclient >= 2012.1
 Requires:   python-neutronclient
 Requires:   python-cinderclient
@@ -134,7 +134,7 @@ BuildRequires: python-sphinx >= 1.1.3
 # Doc building basically means we have to mirror Requires:
 BuildRequires: python-dateutil
 BuildRequires: python-glanceclient
-BuildRequires: python-keystoneclient >= 0.3
+BuildRequires: python-keystoneclient >= 0.3.2
 BuildRequires: python-novaclient >= 2012.1
 BuildRequires: python-neutronclient
 BuildRequires: python-cinderclient
