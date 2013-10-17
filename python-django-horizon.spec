@@ -1,6 +1,6 @@
 Name:       python-django-horizon
 Version:    2013.2
-Release:    0.14.rc2%{?dist}
+Release:    0.15.rc3%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
@@ -8,7 +8,7 @@ Group:      Development/Libraries
 License:    ASL 2.0 and BSD
 URL:        http://horizon.openstack.org/
 BuildArch:  noarch
-Source0:     https://launchpad.net/horizon/havana/havana-rc2/+download/horizon-%{version}.rc2.tar.gz
+Source0:     https://launchpad.net/horizon/havana/havana-rc3/+download/horizon-%{version}.rc3.tar.gz
 Source1:    openstack-dashboard.conf
 Source2:    openstack-dashboard-httpd-2.4.conf
 
@@ -20,7 +20,7 @@ Source10:   rhfavicon.ico
 Source11:   rh-logo.png
 
 #
-# patches_base=2013.2.rc2
+# patches_base=2013.2.rc3
 #
 Patch0001: 0001-Don-t-access-the-net-while-building-docs.patch
 Patch0002: 0002-disable-debug-move-web-root.patch
@@ -98,7 +98,7 @@ Requires:   python-neutronclient
 Requires:   python-cinderclient
 Requires:   python-swiftclient
 Requires:   python-heatclient
-Requires:   python-ceilometerclient
+Requires:   python-ceilometerclient >= 1.0.6
 # Requires:  python-troveclient
 Requires:   python-netaddr
 Requires:   python-oslo-config
@@ -152,7 +152,7 @@ Requires: openstack-dashboard = %{version}
 Customization module for OpenStack Dashboard to provide a branded logo.
 
 %prep
-%setup -q -n horizon-%{version}.rc2
+%setup -q -n horizon-%{version}.rc3
 
 %patch0001 -p1
 %patch0002 -p1
@@ -323,6 +323,9 @@ mkdir -p %{buildroot}%{_sharedstatedir}/openstack-dashboard
 %{_datadir}/openstack-dashboard/openstack_dashboard_theme
 
 %changelog
+* Thu Oct 17 2013 Matthias Runge <mrunge@redhat.com> - 2013.2.0.15.rc3
+- rebase to Havana-rc3
+
 * Tue Oct 15 2013 Matthias Runge <mrunge@redhat.com> - 2013.2.0.14.rc2
 - rebase to Havana-rc2
 
