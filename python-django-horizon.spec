@@ -1,6 +1,6 @@
 Name:       python-django-horizon
 Version:    2013.2
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
@@ -102,6 +102,7 @@ Requires:   python-ceilometerclient >= 1.0.6
 # Requires:  python-troveclient
 Requires:   python-netaddr
 Requires:   python-oslo-config
+Requires:   python-eventlet
 
 BuildRequires: python2-devel
 BuildRequires: python-django-openstack-auth >= 1.0.11
@@ -327,8 +328,10 @@ mkdir -p %{buildroot}%{_var}/log/horizon
 %{_datadir}/openstack-dashboard/openstack_dashboard_theme
 
 %changelog
-* Fri Oct 18 2013 Matthias Runge <mrunge@redhat.com> - 2013.2-1
+* Fri Oct 18 2013 Matthias Runge <mrunge@redhat.com> - 2013.2-2
 - Horizon-2013.2 final
+- create /var/log/horizon
+- add requirement to python-eventlet
 
 * Thu Oct 17 2013 Matthias Runge <mrunge@redhat.com> - 2013.2.0.15.rc3
 - rebase to Havana-rc3
