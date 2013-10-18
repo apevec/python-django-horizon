@@ -1,6 +1,6 @@
 Name:       python-django-horizon
 Version:    2013.2
-Release:    0.15.rc3%{?dist}
+Release:    1%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
@@ -8,7 +8,7 @@ Group:      Development/Libraries
 License:    ASL 2.0 and BSD
 URL:        http://horizon.openstack.org/
 BuildArch:  noarch
-Source0:     https://launchpad.net/horizon/havana/havana-rc3/+download/horizon-%{version}.rc3.tar.gz
+Source0:    https://launchpad.net/horizon/havana/%{version}/+download/horizon-%{version}.tar.gz
 Source1:    openstack-dashboard.conf
 Source2:    openstack-dashboard-httpd-2.4.conf
 
@@ -20,7 +20,7 @@ Source10:   rhfavicon.ico
 Source11:   rh-logo.png
 
 #
-# patches_base=2013.2.rc3
+# patches_base=2013.2
 #
 Patch0001: 0001-Don-t-access-the-net-while-building-docs.patch
 Patch0002: 0002-disable-debug-move-web-root.patch
@@ -152,7 +152,7 @@ Requires: openstack-dashboard = %{version}
 Customization module for OpenStack Dashboard to provide a branded logo.
 
 %prep
-%setup -q -n horizon-%{version}.rc3
+%setup -q -n horizon-%{version}
 
 %patch0001 -p1
 %patch0002 -p1
@@ -308,7 +308,6 @@ mkdir -p %{buildroot}%{_sharedstatedir}/openstack-dashboard
 %dir %{_datadir}/openstack-dashboard/openstack_dashboard/locale/??_??
 %dir %{_datadir}/openstack-dashboard/openstack_dashboard/locale/??/LC_MESSAGES
 
-%{_sharedstatedir}/openstack-dashboard
 %dir %attr(0750, root, apache) %{_sysconfdir}/openstack-dashboard
 %dir %attr(0750, apache, apache) %{_sharedstatedir}/openstack-dashboard
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/openstack-dashboard.conf
@@ -317,12 +316,15 @@ mkdir -p %{buildroot}%{_sharedstatedir}/openstack-dashboard
 %config(noreplace) %attr(0640, root, apache) %{_sysconfdir}/openstack-dashboard/nova_policy.json
 
 %files doc
-%doc html 
+%doc html
 
 %files -n openstack-dashboard-theme
 %{_datadir}/openstack-dashboard/openstack_dashboard_theme
 
 %changelog
+* Fri Oct 18 2013 Matthias Runge <mrunge@redhat.com> - 2013.2-1
+- Horizon-2013.2 final
+
 * Thu Oct 17 2013 Matthias Runge <mrunge@redhat.com> - 2013.2.0.15.rc3
 - rebase to Havana-rc3
 
