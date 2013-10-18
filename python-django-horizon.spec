@@ -265,6 +265,10 @@ cp -a static/* %{buildroot}%{_datadir}/openstack-dashboard/static
 
 # create /var/run/openstack-dashboard/ and own it
 mkdir -p %{buildroot}%{_sharedstatedir}/openstack-dashboard
+
+# create /var/log/horizon and own it
+mkdir -p %{buildroot}%{_var}/log/horizon
+
 #%check
 #sed -i 's:^SECRET_KEY =.*:SECRET_KEY = "badcafe":' openstack_dashboard/local/local_settings.py
 #./run_tests.sh -N
@@ -310,6 +314,7 @@ mkdir -p %{buildroot}%{_sharedstatedir}/openstack-dashboard
 
 %dir %attr(0750, root, apache) %{_sysconfdir}/openstack-dashboard
 %dir %attr(0750, apache, apache) %{_sharedstatedir}/openstack-dashboard
+%dir %attr(0750, apache, apache) %{_var}/log/horizon
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/openstack-dashboard.conf
 %config(noreplace) %attr(0640, root, apache) %{_sysconfdir}/openstack-dashboard/local_settings
 %config(noreplace) %attr(0640, root, apache) %{_sysconfdir}/openstack-dashboard/keystone_policy.json
