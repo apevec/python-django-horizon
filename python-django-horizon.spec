@@ -32,6 +32,7 @@ Patch0007: 0007-move-SECRET_KEY-secret_key_store-to-tmp.patch
 Patch0008: 0008-fix-up-issues-with-customization.patch
 Patch0009: 0009-do-not-truncate-the-logo-related-rhbz-877138.patch
 Patch0010: 0010-move-SECRET_KEYSTORE-to-var-lib-openstack-dashboard.patch
+Patch0011: 0011-Fix-bug-by-escaping-strings-from-Nova-before-display.patch
 
 
 
@@ -166,6 +167,7 @@ Customization module for OpenStack Dashboard to provide a branded logo.
 %patch0008 -p1
 %patch0009 -p1
 %patch0010 -p1
+%patch0011 -p1
 
 # remove unnecessary .po files
 find . -name "django*.po" -exec rm -f '{}' \;
