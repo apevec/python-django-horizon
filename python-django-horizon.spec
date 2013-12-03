@@ -1,6 +1,6 @@
 Name:       python-django-horizon
 Version:    2013.2
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
@@ -331,6 +331,9 @@ mkdir -p %{buildroot}%{_var}/log/horizon
 %{_datadir}/openstack-dashboard/openstack_dashboard_theme
 
 %changelog
+* Tue Dec 03 2013 Matthias Runge <mrunge@redhat.com> - 2013.2-4
+- fix CVE-2013-6406 (RHBZ#1035914)
+
 * Thu Nov 21 2013 Matthias Runge <mrunge@redhat.com> - 2013.2-3
 - add runtime requiremt python-pbr
 
