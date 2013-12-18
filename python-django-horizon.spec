@@ -1,6 +1,6 @@
 Name:       python-django-horizon
-Version:    2013.2
-Release:    4%{?dist}
+Version:    2013.2.1
+Release:    1%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
@@ -20,7 +20,7 @@ Source10:   rhfavicon.ico
 Source11:   rh-logo.png
 
 #
-# patches_base=2013.2
+# patches_base=2013.2.1
 #
 Patch0001: 0001-Don-t-access-the-net-while-building-docs.patch
 Patch0002: 0002-disable-debug-move-web-root.patch
@@ -101,7 +101,7 @@ Requires:   python-cinderclient
 Requires:   python-swiftclient
 Requires:   python-heatclient
 Requires:   python-ceilometerclient >= 1.0.6
-# Requires:  python-troveclient
+Requires:   python-troveclient
 Requires:   python-netaddr
 Requires:   python-oslo-config
 Requires:   python-eventlet
@@ -142,7 +142,7 @@ BuildRequires: python-cinderclient
 BuildRequires: python-swiftclient
 BuildRequires: python-heatclient
 BuildRequires: python-ceilometerclient
-# BuildRequires:  python-troveclient
+BuildRequires: python-troveclient
 
 %description doc
 Documentation for the Django Horizon application for talking with Openstack
@@ -331,6 +331,9 @@ mkdir -p %{buildroot}%{_var}/log/horizon
 %{_datadir}/openstack-dashboard/openstack_dashboard_theme
 
 %changelog
+* Wed Dec 18 2013 Matthias Runge <mrunge@redhat.com> - 2013.2.1-1
+- rebase to 2013.2.1
+
 * Tue Dec 03 2013 Matthias Runge <mrunge@redhat.com> - 2013.2-4
 - fix CVE-2013-6406 (RHBZ#1035914)
 
