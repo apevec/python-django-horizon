@@ -26,13 +26,11 @@ Patch0001: 0001-Don-t-access-the-net-while-building-docs.patch
 Patch0002: 0002-disable-debug-move-web-root.patch
 Patch0003: 0003-change-lockfile-location-to-tmp-and-also-add-localho.patch
 Patch0004: 0004-Add-a-customization-module-based-on-RHOS.patch
-Patch0005: 0005-Revert-Use-oslo.sphinx-and-remove-local-copy-of-doc-.patch
-Patch0006: 0006-move-RBAC-policy-files-and-checks-to-etc-openstack-d.patch
-Patch0007: 0007-move-SECRET_KEY-secret_key_store-to-tmp.patch
-Patch0008: 0008-fix-up-issues-with-customization.patch
-Patch0009: 0009-do-not-truncate-the-logo-related-rhbz-877138.patch
-Patch0010: 0010-move-SECRET_KEYSTORE-to-var-lib-openstack-dashboard.patch
-Patch0011: 0011-Fix-bug-by-escaping-strings-from-Nova-before-display.patch
+Patch0005: 0005-move-RBAC-policy-files-and-checks-to-etc-openstack-d.patch
+Patch0006: 0006-move-SECRET_KEY-secret_key_store-to-tmp.patch
+Patch0007: 0007-fix-up-issues-with-customization.patch
+Patch0008: 0008-do-not-truncate-the-logo-related-rhbz-877138.patch
+Patch0009: 0009-move-SECRET_KEYSTORE-to-var-lib-openstack-dashboard.patch
 
 
 
@@ -143,6 +141,7 @@ BuildRequires: python-swiftclient
 BuildRequires: python-heatclient
 BuildRequires: python-ceilometerclient
 BuildRequires: python-troveclient
+BuildRequires: python-oslo-sphinx
 
 %description doc
 Documentation for the Django Horizon application for talking with Openstack
@@ -166,8 +165,6 @@ Customization module for OpenStack Dashboard to provide a branded logo.
 %patch0007 -p1
 %patch0008 -p1
 %patch0009 -p1
-%patch0010 -p1
-%patch0011 -p1
 
 # remove unnecessary .po files
 find . -name "django*.po" -exec rm -f '{}' \;

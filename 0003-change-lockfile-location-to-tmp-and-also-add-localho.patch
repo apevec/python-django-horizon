@@ -1,4 +1,4 @@
-From ff59c0877d17ae0f64e83cd4af930df56182299e Mon Sep 17 00:00:00 2001
+From 4bd36a5a02039395c52c42a878c618cbbca1d03e Mon Sep 17 00:00:00 2001
 From: Matthias Runge <mrunge@redhat.com>
 Date: Thu, 25 Jul 2013 11:32:38 +0200
 Subject: [PATCH] change lockfile location to '/tmp' and also add localhost to
@@ -9,7 +9,7 @@ Subject: [PATCH] change lockfile location to '/tmp' and also add localhost to
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/openstack_dashboard/local/local_settings.py.example b/openstack_dashboard/local/local_settings.py.example
-index d2db3cd..d386d46 100644
+index 8f15a64..832358e 100644
 --- a/openstack_dashboard/local/local_settings.py.example
 +++ b/openstack_dashboard/local/local_settings.py.example
 @@ -12,7 +12,7 @@ TEMPLATE_DEBUG = DEBUG
