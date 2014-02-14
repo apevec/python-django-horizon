@@ -1,5 +1,5 @@
 Name:       python-django-horizon
-Version:    2013.2.1
+Version:    2013.2.2
 Release:    1%{?dist}
 Summary:    Django application for talking to Openstack
 
@@ -20,7 +20,7 @@ Source10:   rhfavicon.ico
 Source11:   rh-logo.png
 
 #
-# patches_base=2013.2.1
+# patches_base=2013.2.2
 #
 Patch0001: 0001-Don-t-access-the-net-while-building-docs.patch
 Patch0002: 0002-disable-debug-move-web-root.patch
@@ -328,6 +328,9 @@ mkdir -p %{buildroot}%{_var}/log/horizon
 %{_datadir}/openstack-dashboard/openstack_dashboard_theme
 
 %changelog
+* Fri Feb 14 2014 Matthias Runge <mrunge@redhat.com> - 2013.2.2-1
+- rebase to 2013.2.2
+
 * Wed Dec 18 2013 Matthias Runge <mrunge@redhat.com> - 2013.2.1-1
 - rebase to 2013.2.1
 
