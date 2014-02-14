@@ -153,6 +153,14 @@ Customization module for OpenStack Dashboard to provide a branded logo.
 
 %prep
 %setup -q -n horizon-%{version}
+# Use git to manage patches.
+# http://rwmj.wordpress.com/2011/08/09/nice-rpm-git-patch-management-trick/
+git init
+git config user.email "python-django-horizon-owner@fedoraproject.org"
+git config user.name "python-django-horizon"
+git add .
+git commit -a -q -m "%{version} baseline"
+git am %{patches}
 
 
 # remove unnecessary .po files
