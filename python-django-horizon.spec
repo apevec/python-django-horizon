@@ -7,7 +7,6 @@ Group:      Development/Libraries
 # Code in horizon/horizon/utils taken from django which is BSD
 License:    ASL 2.0 and BSD
 URL:        http://horizon.openstack.org/
-BuildArch:  noarch
 Source0:    https://launchpad.net/horizon/havana/%{version}/+download/horizon-%{version}.tar.gz
 Source1:    openstack-dashboard.conf
 Source2:    openstack-dashboard-httpd-2.4.conf
@@ -27,12 +26,10 @@ Patch0002: 0002-disable-debug-move-web-root.patch
 Patch0003: 0003-change-lockfile-location-to-tmp-and-also-add-localho.patch
 Patch0004: 0004-Add-a-customization-module-based-on-RHOS.patch
 Patch0005: 0005-move-RBAC-policy-files-and-checks-to-etc-openstack-d.patch
-Patch0006: 0006-move-SECRET_KEY-secret_key_store-to-tmp.patch
-Patch0007: 0007-fix-up-issues-with-customization.patch
-Patch0008: 0008-do-not-truncate-the-logo-related-rhbz-877138.patch
-Patch0009: 0009-move-SECRET_KEYSTORE-to-var-lib-openstack-dashboard.patch
+Patch0006: 0006-move-SECRET_KEYSTORE-to-var-lib-openstack-dashboard.patch
 
 
+BuildArch:  noarch
 
 # epel6 has a separate Django14 package
 %if 0%{?rhel}==6
@@ -51,6 +48,7 @@ Requires:   python-pbr
 
 BuildRequires: python2-devel
 BuildRequires: python-setuptools
+BuildRequires: git
 BuildRequires: python-d2to1
 BuildRequires: python-pbr >= 0.5.21
 BuildRequires: python-lockfile
@@ -156,15 +154,6 @@ Customization module for OpenStack Dashboard to provide a branded logo.
 %prep
 %setup -q -n horizon-%{version}
 
-%patch0001 -p1
-%patch0002 -p1
-%patch0003 -p1
-%patch0004 -p1
-%patch0005 -p1
-%patch0006 -p1
-%patch0007 -p1
-%patch0008 -p1
-%patch0009 -p1
 
 # remove unnecessary .po files
 find . -name "django*.po" -exec rm -f '{}' \;
