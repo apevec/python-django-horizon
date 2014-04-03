@@ -31,7 +31,10 @@ Patch0002: 0002-disable-debug-move-web-root.patch
 Patch0003: 0003-change-lockfile-location-to-tmp-and-also-add-localho.patch
 Patch0004: 0004-Add-a-customization-module-based-on-RHOS.patch
 Patch0005: 0005-move-RBAC-policy-files-and-checks-to-etc-openstack-d.patch
-Patch0006: 0006-move-SECRET_KEYSTORE-to-var-lib-openstack-dashboard.patch
+Patch0006: 0006-move-SECRET_KEY-secret_key_store-to-tmp.patch
+Patch0007: 0007-fix-up-issues-with-customization.patch
+Patch0008: 0008-do-not-truncate-the-logo-related-rhbz-877138.patch
+Patch0009: 0009-move-SECRET_KEYSTORE-to-var-lib-openstack-dashboard.patch
 
 
 BuildArch:  noarch
