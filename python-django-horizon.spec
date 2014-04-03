@@ -1,13 +1,18 @@
+%global release_name havana
+%global project horizon
+Source0:        http://tarballs.openstack.org/%{project}/%{project}-stable-%{release_name}.tar.gz
+%global devtag %(tar ztf %{SOURCE0} 2>/dev/null | head -1 | rev | cut -d. -f2 | rev)
+%global devrel %(tar ztf %{SOURCE0} 2>/dev/null | head -1 | rev | cut -d. -f3-5 | cut -d- -f1 | rev)
+
 Name:       python-django-horizon
-Version:    2013.2.2
-Release:    1%{?dist}
+Version:    %{devrel}
+Release:    0.1.%{devtag}%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
 # Code in horizon/horizon/utils taken from django which is BSD
 License:    ASL 2.0 and BSD
 URL:        http://horizon.openstack.org/
-Source0:    https://launchpad.net/horizon/havana/%{version}/+download/horizon-%{version}.tar.gz
 Source1:    openstack-dashboard.conf
 Source2:    openstack-dashboard-httpd-2.4.conf
 
@@ -19,7 +24,7 @@ Source10:   rhfavicon.ico
 Source11:   rh-logo.png
 
 #
-# patches_base=2013.2.2
+# patches_base=gerrit/stable/havana
 #
 Patch0001: 0001-Don-t-access-the-net-while-building-docs.patch
 Patch0002: 0002-disable-debug-move-web-root.patch
@@ -152,7 +157,9 @@ Requires: openstack-dashboard = %{version}
 Customization module for OpenStack Dashboard to provide a branded logo.
 
 %prep
-%setup -q -n horizon-%{version}
+%setup -q -c -T
+tar --strip-components=1 -zxf %{SOURCE0}
+
 # Use git to manage patches.
 # http://rwmj.wordpress.com/2011/08/09/nice-rpm-git-patch-management-trick/
 git init
@@ -177,6 +184,8 @@ cp %{SOURCE11} openstack_dashboard_theme/static/dashboard/img
 
 # drop config snippet
 cp -p %{SOURCE4} .
+
+sed -i 's/^Version: .*/Version: %{version}/' PKG-INFO
 
 %build
 %{__python} setup.py build
